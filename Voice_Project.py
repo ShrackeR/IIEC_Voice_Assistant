@@ -1,4 +1,3 @@
-from gtts import gTTS
 import speech_recognition as sr
 import pyttsx3
 import os
@@ -13,8 +12,7 @@ import json
 import time
 import string
 from pathlib import Path
-from selenium import webdriver
-from urllib3 import quote
+
 
 def speak_out(audio, voice):
     #"speaks audio passed as argument"
@@ -52,12 +50,12 @@ def observe():
     r = sr.Recognizer()
 
     with sr.Microphone() as source:
-        r.pause_threshold = 1
-        r.adjust_for_ambient_noise(source)
+#        r.adjust_for_ambient_noise(source)
         audio = r.listen(source)
 
     try:
-        read = r.recognize_google(audio).lower()
+        read = r.recognize_google(audio).capitalize()
+        print(r)
         if myname in read:
             return read
 
@@ -108,7 +106,9 @@ def web_search():
         omit=['open','run,','execute','start','begin','create','initiate']
         search=search.replace(omit,'')
         search=search.replace(' ','+')
-        webbrowser.open_new_tab('http://www.google.com/search?' + search)
+        query='http://www.google.com/search?' + search
+        fq='chrome'+query
+        os.system(fq)
     elif 'no' in command or 'nope' in command or 'never' in command:
         speak_out('Okay...',voice)
     else:
@@ -197,43 +197,59 @@ def hibernate():
 
 def search_web(): 
     if 'youtube' in command: 
-        speak_out("Opening in youtube",voice) 
+        speak_out("Searching in youtube",voice) 
         query= command.replace("youtube",'')
-        query= command.replace(" ",'+')
-        query= command.replace("search",'')
-        if 'in' in command:
-            query= command.replace('in','')
-        if 'for' in command:
-            query= command.replace("for",'')
+        query= query.replace(" ",'')
+        query= query.replace("search",'')
+#        if 'in' in query:
+#            query= query.replace('in','')
+#        if 'for' in query:
+#            query= query.replace("for",'')
 
-        webbrowser.open("http://www.youtube.com/results?search_query =" + query) 
+        query="http://www.youtube.com/results?search_query=" + query
+        fq='chrome ' + query
+        os.system(fq)
         return
   
     elif 'wikipedia' in command: 
   
-        speak_out("Opening Wikipedia",voice) 
-        indx = command.split().index('wikipedia') 
-        query = command.split()[indx + 1:] 
-        driver.get("https://en.wikipedia.org/wiki/" + '_'.join(query)) 
+        speak_out("Searching Wikipedia",voice) 
+        query= command.replace("wikipedia",'')
+        query= query.replace(" ",'')
+        query= query.replace("search",'')
+        query="https://en.wikipedia.org/w/index.php?search=" + query
+        fq='chrome ' + query
+        os.system(fq)
         return
   
     else: 
   
         if 'google' in command: 
-  
-            indx = command.split().index('google') 
-            query = command.split()[indx + 1:] 
-            driver.get("https://www.google.com/search?q =" + '+'.join(query)) 
+            speak_out("Searching Wikipedia",voice) 
+            query= command.replace("google",'')
+            query= query.replace(" ",'')
+            query= query.replace("search",'')
+            query="https://www.google.com/search?q=" + query
+            fq='chrome ' + query
+            os.system(fq)
   
         elif 'search' in command: 
-  
-            indx = command.split().index('search') 
-            query = command.split()[indx + 1:] 
-            driver.get("https://www.google.com/search?q =" + '+'.join(query)) 
+            speak_out("Searching Wikipedia",voice) 
+            query= command.replace("google",'')
+            query= query.replace(" ",'')
+            query= query.replace("search",'')
+            query="https://www.google.com/search?q=" + query
+            fq='chrome ' + query
+            os.system(fq)
   
         else: 
-  
-            driver.get("https://www.google.com/search?q =" + '+'.join(command.split())) 
+            speak_out("Searching Wikipedia",voice) 
+            query= command.replace("google",'')
+            query= query.replace(" ",'')
+            query= query.replace("search",'')
+            query="https://www.google.com/search?q=" + query
+            fq='chrome ' + query
+            os.system(fq)
 
 
 def open_app():
@@ -261,6 +277,7 @@ def open_app():
             z=select +' > nul 2> nul'
             print(z)
             os.system(z)
+            pass
         except:
             speak_out('Sorry, I cannot open ' + select + '. Please try again.',voice)
 
@@ -278,8 +295,10 @@ def exitme():
             x=('taskkill /F /IM ')
             y=('.exe /T > nul 2> nul')
             z=x+select+y
+            print(z)
             speak_out('If '+ select + 'is open, ' + select +' will close in 10 seconds... Make sure to save any unsaved changes',voice)
-            os.system(z)
+            time.sleep(10)
+            os.system(z) 
         except:
             speak_out('Sorry, I cannot close ' + select + '...',voice)
             os.system('cls')
@@ -379,7 +398,7 @@ def setup():
             f.write(data)
             f.close()
         speak_out('I have to shut down in order to save your details. Please start me again.',voice)
-    else:
+    else:3
         speak_out('No worries, you can set me up later on...',voice)
 
 
