@@ -398,7 +398,7 @@ def setup():
             f.write(data)
             f.close()
         speak_out('I have to shut down in order to save your details. Please start me again.',voice)
-    else:3
+    else:
         speak_out('No worries, you can set me up later on...',voice)
 
 
