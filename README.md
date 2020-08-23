@@ -1,7 +1,7 @@
 # IIEC_Voice_Assistant
 The voice assistant is my first project in python as well as GitHub. 
 
-####Note: You need an active internet connection in order to be able to interact with the assistant.
+#### Note: You need an active internet connection in order to be able to interact with the assistant.
 
 You can see some of it's features below:
 
@@ -9,7 +9,7 @@ You can see some of it's features below:
 When you open the code for the first time, The assistant asks you to set it up. You also have the option to set the assistant later.
 Here, the assitant asks for your name, location, what would you like to call it and it's voice's gender and saves it in the user_info file.
 
-####Note: Please restart the program after setting the assistant up.
+#### Note: Please restart the program after setting the assistant up.
 
 ## 2. Giving your first command to assistant:
 After restarting the assistant, it will greet you and will ask you what it can do for you.
