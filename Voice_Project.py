@@ -77,6 +77,22 @@ def is_connected():
 
 
 
+def start_doc():
+    url='http://13.233.45.137/start.html'
+    speak_out('Opening Chrome to run docker container.',voice)
+    webbrowser.open(url)
+    
+
+
+
+def stop_doc():
+    url='http://13.233.45.137/stop.html'
+    speak_out('Opening Chrome to stop docker container.',voice)
+    webbrowser.open(url)
+    
+
+
+
 def greet():
     morning=['good morning','hiii','hello','heyy']
     afternoon=['good afternoon','hiii','hello','heyy']
@@ -225,7 +241,7 @@ def search_web():
     else: 
   
         if 'google' in command: 
-            speak_out("Searching Wikipedia",voice) 
+            speak_out("Searching Google",voice) 
             query= command.replace("google",'')
             query= query.replace(" ",'')
             query= query.replace("search",'')
@@ -234,7 +250,7 @@ def search_web():
             os.system(fq)
   
         elif 'search' in command: 
-            speak_out("Searching Wikipedia",voice) 
+            speak_out("Searching Google",voice) 
             query= command.replace("google",'')
             query= query.replace(" ",'')
             query= query.replace("search",'')
@@ -243,7 +259,7 @@ def search_web():
             os.system(fq)
   
         else: 
-            speak_out("Searching Wikipedia",voice) 
+            speak_out("Searching Google",voice) 
             query= command.replace("google",'')
             query= query.replace(" ",'')
             query= query.replace("search",'')
@@ -253,55 +269,66 @@ def search_web():
 
 
 def open_app():
-    speak_out('Please speak the name of the application or website that you want to open once more.',voice)
-    select=listen()
-        
-    if 'gmail' in select or 'mail' in select:
-        #reg_ex = re.search('open gmail (.*)', command)
-        url = 'https://www.gmail.com/'
-        webbrowser.open(url)
-        speak_out('Done!',voice)
-
-    elif 'calender' in select or 'schedule' in select:
-        url = 'https://calendar.google.com/'
-        webbrowser.open(url)
-        speak_out('Done!',voice)
-
-    elif 'website' in select or '.com' in select or '.org' in select or '.in' in select or '.io' in select:
-        webbrowser.open(select)
-        speak_out('Done!',voice)
-
+    speak_out('Do you want to open a Docker Container? Speak yes or no.',voice)
+    choose=listen()
+    if 'yes' in choose:
+        start_doc()
     else:
-        try:
-            speak_out( select + ' will be opened if it is in the environment path',voice)
-            z=select +' > nul 2> nul'
-            print(z)
-            os.system(z)
-            pass
-        except:
-            speak_out('Sorry, I cannot open ' + select + '. Please try again.',voice)
+        speak_out('Please speak the name of the application or website that you want to open once more.',voice)
+        select=listen()
+            
+        if 'gmail' in select or 'mail' in select:
+            #reg_ex = re.search('open gmail (.*)', command)
+            url = 'https://www.gmail.com/'
+            webbrowser.open(url)
+            speak_out('Done!',voice)
+        
+
+        elif 'calender' in select or 'schedule' in select:
+            url = 'https://calendar.google.com/'
+            webbrowser.open(url)
+            speak_out('Done!',voice)
+
+        elif 'website' in select or '.com' in select or '.org' in select or '.in' in select or '.io' in select:
+            webbrowser.open(select)
+            speak_out('Done!',voice)
+
+        else:
+            try:
+                speak_out( select + ' will be opened if it is in the environment path',voice)
+                z=select +' > nul 2> nul'
+                print(z)
+                os.system(z)
+                pass
+            except:
+                speak_out('Sorry, I cannot open ' + select + '. Please try again.',voice)
 
         
 
 
 
 def exitme():
-    speak_out('Speak yes if you want me to exit an application or speak no if you want to close me.',voice)
+    speak_out('Speak yes if you want me to exit an application or docker container else speak no if you want to close me.',voice)
     choice=listen()
     if 'yes' in choice or 'yeah' in choice or 'yep' in choice or 'sure' in choice or 'yup' in choice or 'okay' in choice:
-        speak_out('You chose to close other applications... Please speak the name of the application that you want to exit.',voice)
-        select=listen()
-        try:
-            x=('taskkill /F /IM ')
-            y=('.exe /T > nul 2> nul')
-            z=x+select+y
-            print(z)
-            speak_out('If '+ select + 'is open, ' + select +' will close in 10 seconds... Make sure to save any unsaved changes',voice)
-            time.sleep(10)
-            os.system(z) 
-        except:
-            speak_out('Sorry, I cannot close ' + select + '...',voice)
-            os.system('cls')
+        speak_out('Do you want to close Docker Container? Speak yes or no.',voice)
+        choose=listen()
+        if 'yes' in choose:
+            stop_doc()
+        else:
+            speak_out('You chose to close other applications... Please speak the name of the application that you want to exit.',voice)
+            select=listen()
+            try:
+                x=('taskkill /F /IM ')
+                y=('.exe /T > nul 2> nul')
+                z=x+select+y
+                print(z)
+                speak_out('If '+ select + 'is open, ' + select +' will close in 10 seconds... Make sure to save any unsaved changes',voice)
+                time.sleep(10)
+                os.system(z) 
+            except:
+                speak_out('Sorry, I cannot close ' + select + '...',voice)
+                os.system('cls')
 
     elif 'no' in choice or 'nope' in choice or 'never' in choice:
         exitall()
@@ -353,6 +380,14 @@ def exitall():
     speak_out(random.choice(exit_st) + usr_name,voice)
     exit()
 
+
+
+def runinbackground():
+            command=observe()
+            if command !=None:
+                print("You said: " + command)
+                process()
+                i=i+1
 
  
 def setup():
@@ -436,10 +471,4 @@ while(True):
         i=i+1
         process()
         speak_out('I will now run in background. You can wake me up by taking my name.',voice)
-
-    else:
-        command=observe()
-        if command !=None:
-            print("You said: " + command)
-            process()
-            i=i+1
+        runinbackground()
