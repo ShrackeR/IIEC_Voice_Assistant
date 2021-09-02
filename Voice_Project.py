@@ -2,6 +2,7 @@ import speech_recognition as sr
 import pyttsx3
 import os
 import re
+import sys
 import webbrowser
 import requests
 import win32com.client as wincl
@@ -378,7 +379,7 @@ def exitall():
     speak_out('I will exit in 5 seconds.',voice)
     exit_st=['Byeee...','See you soon...','Thanks for using me...', 'Have a great day...','Take care...']
     speak_out(random.choice(exit_st) + usr_name,voice)
-    exit()
+    sys.exit()
 
 
 
